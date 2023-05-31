@@ -1,18 +1,6 @@
-const mysql = require("mysql2");
 const inquirer = require("inquirer");
+const db = require("./db/connection.js");
 
-const db = mysql.createConnection(
-  {
-    host: 'localhost',
-    port: 3001,
-
-    user: 'root',
-
-    password: 'fa11out@greenaudi42',
-    database: 'employee_db'
-  },
-  console.log(`Connected to the employee_db database.`)
-);
 
 async function cmdPrompt() {
     await inquirer.prompt([
@@ -32,7 +20,7 @@ async function cmdPrompt() {
                    ]
         },
     ])
-    .then(function(res) {
+    .then( function(res) {
         console.log(res);
         switch (res.task) {
             case "view all departments":
@@ -63,28 +51,28 @@ async function cmdPrompt() {
                 updateEmployeeRole();
                 break;
         }
-    })
-};
+    });
+}
 
 function viewDepartments() {
     db.query(`SELECT * FROM department`, (err, results) => {
         err ? console.log(err) : console.log(results);
         cmdPrompt();
-    })
+    });
 }
 
 function viewRoles() {
     db.query(`SELECT * FROM roles`, (err, results) => {
         err ? console.log(err) : console.log(results);
         cmdPrompt();
-    })
+    });
 }
 
 function viewEmployees() {
     db.query(`SELECT * FROM employee`, (err, results) => {
         err ? console.log(err) : console.log(results);
         cmdPrompt();
-    })
+    });
 }
 
 function addDepartment() {
@@ -100,8 +88,8 @@ function addDepartment() {
             console.log(res.newDepartment);
             err ? console.log(err) : console.log(results);
             cmdPrompt();
-        })
-    })
+        });
+    });
 }
 
 function addRole() {
@@ -127,8 +115,8 @@ function addRole() {
             console.log(res);
             err ? console.log(err) : console.log(results);
             cmdPrompt();
-        })
-    })
+        });
+    });
 }
 
 function addEmployee() {
@@ -159,8 +147,8 @@ function addEmployee() {
             console.log(res);
             err ? console.log(err) : console.log(results);
             cmdPrompt();
-        })
-    })
+        });
+    });
 }
 
 function updateEmployeeRole() {
@@ -181,8 +169,8 @@ function updateEmployeeRole() {
             console.log(res);
             err ? console.log(err) : console.log(results);
             cmdPrompt();
-        })
-    })
+        });
+    });
 
 }
 
