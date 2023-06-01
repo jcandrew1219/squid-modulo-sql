@@ -2,8 +2,8 @@ const inquirer = require("inquirer");
 const db = require("./db/connection.js");
 
 
-async function cmdPrompt() {
-    await inquirer.prompt([
+function cmdPrompt() {
+    inquirer.prompt([
         {
           type: 'list',
           name: 'task',
@@ -21,7 +21,7 @@ async function cmdPrompt() {
         },
     ])
     .then( function(res) {
-        console.log(res);
+        //console.log(res);
         switch (res.task) {
             case "view all departments":
                 viewDepartments();
@@ -50,6 +50,9 @@ async function cmdPrompt() {
             case "update an employee role":
                 updateEmployeeRole();
                 break;
+            
+            case "EXIT":
+                return;
         }
     });
 }
@@ -84,7 +87,7 @@ function addDepartment() {
         },
     ])
     .then(function(res) {
-        db.query(`INSERT INTO department (departmentName) VALUES ("${res.newDepartment}")`, (err, results) => {
+        db.query(`INSERT INTO department (name) VALUES ("${res.newDepartment}")`, (err, results) => {
             console.log(res.newDepartment);
             err ? console.log(err) : console.log(results);
             cmdPrompt();
@@ -106,12 +109,12 @@ function addRole() {
         },
         {
             type: 'input',
-            message: 'Input a department this role belongs to.',
+            message: 'Input a department id for this role.',
             name: 'roleDepartment',
         },
     ])
     .then(function(res) {
-        db.query(`INSERT INTO roles (title, salary, departmentID) VALUES ("${res.roleName}", ${res.roleSalary}, ${res.roleDepartment})`, (err, results) => {
+        db.query(`INSERT INTO roles (title, salary, department_id) VALUES ("${res.roleName}", ${res.roleSalary}, ${res.roleDepartment})`, (err, results) => {
             console.log(res);
             err ? console.log(err) : console.log(results);
             cmdPrompt();
@@ -133,7 +136,7 @@ function addEmployee() {
         },
         {
             type: 'input',
-            message: 'Input a role this employee belongs to.',
+            message: 'Input a role id for this employee.',
             name: 'employeeRole',
         },
         {
@@ -160,12 +163,12 @@ function updateEmployeeRole() {
         },
         {
             type: 'input',
-            message: 'Input a new role for the employee.',
+            message: 'Input a new role id for the employee.',
             name: 'newRole',
         },
     ])
     .then(function(res) {
-        db.query(`UPDATE employees set role_id = ${res.newRole} WHERE id = ${res.employeeId}`, (err, results) => {
+        db.query(`UPDATE employee set role_id = ${res.newRole} WHERE id = ${res.employeeId}`, (err, results) => {
             console.log(res);
             err ? console.log(err) : console.log(results);
             cmdPrompt();

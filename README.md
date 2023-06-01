@@ -27,7 +27,8 @@
   The user must navigate to this project and utilize the `node index.js` command. Once completed, the user then is able to follow prompts until they decided to exit.
 
   ## Walkthrough Video
-
+  https://youtu.be/Tld8znmwNA0
+  
   ## Licenses
   This project is covered under the MIT license. To get more information, click on the license badge at the top.
 
